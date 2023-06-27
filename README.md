@@ -1,1 +1,2 @@
 # django-nextjs
+# django-nextjs
