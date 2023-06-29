@@ -11,19 +11,22 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+import os 
+import dotenv 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+dotenv.read_dotenv()
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-q$hb_d&%ji7h-nx7+)*+5h)%q371-!rt@5v%7klw8a!$242=mj'
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG') == 'True'
 
 ALLOWED_HOSTS = []
 
@@ -38,7 +41,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'django.contrib.gis'
+    'rest_framework',
+    'corsheaders',
+    # 'storages',
+    'django.contrib.gis',
+    'django_filters',
+
+    'job.apps.JobConfig'
+
 ]
 
 MIDDLEWARE = [
@@ -77,12 +87,12 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'jobbee-api',
-        'USERS': 'postgres', 
-        'PASSWORD': 'postgres', 
-        'HOST': 'localhost', 
-        'PORT' : 5432
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        'NAME': os.environ.get('DATABASE_NAME'),
+        'USER': os.environ.get('DATABASE_USER'), 
+        'PASSWORD': os.environ.get('DATABASE_PASSWORD'), 
+        'HOST': os.environ.get('DATABASE_HOST'), 
+        'PORT' : os.environ.get('DATABASE_PORT')
     }
 }
 
@@ -129,3 +139,8 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+GDAL_LIBRARY_PATH = os.environ.get('GDAL_LIBRARY_PATH')
+GEOS_LIBRARY_PATH = os.environ.get('GEOS_LIBRARY_PATH')
+
+
