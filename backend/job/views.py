@@ -7,18 +7,16 @@ from .serializers import JobSerializer
 from .models import Job
 
 from django.shortcuts import get_object_or_404
-
-
-
+from .filters import JobsFilter
 
 # Create your views here.
 
 @api_view(['GET'])
 def getAllJobs(request):
 
-    jobs = Job.objects.all()
+    filterset = JobsFilter(request.GET, queryset = Job.objects.all().order_by('id'))
 
-    serializer = JobSerializer(jobs, many = True)
+    serializer = JobSerializer(filterset.qs, many = True)
     return Response(serializer.data)
 
 

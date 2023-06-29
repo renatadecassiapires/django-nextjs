@@ -87,9 +87,9 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
         'NAME': 'jobbee-api',
-        'USERS': 'postgres', 
+        'USER': 'postgres', 
         'PASSWORD': 'postgres', 
         'HOST': 'localhost', 
         'PORT' : 5432
